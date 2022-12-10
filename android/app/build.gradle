@@ -1,7 +1,13 @@
 apply plugin: "com.android.application"
-
 import com.android.build.OutputFile
 import org.apache.tools.ant.taskdefs.condition.Os
+
+project.ext.envConfigFiles = [
+  devdebug: ".env.dev",
+  devrelease: ".env.dev",
+  stagedebug: ".env.stage",
+  stagerelease: ".env.stage",
+]
 
 project.ext.react = [
     enableHermes: true,  // clean and rebuild if changing
@@ -34,6 +40,8 @@ android {
         versionCode 1
         versionName "1.0"
         buildConfigField "boolean", "IS_NEW_ARCHITECTURE_ENABLED", isNewArchitectureEnabled().toString()
+
+        resValue "string", "build_config_package", "com.workassistant"
 
         if (isNewArchitectureEnabled()) {
             // We configure the CMake build only if you decide to opt-in for the New Architecture.
@@ -122,6 +130,15 @@ android {
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
+    }
+    flavorDimensions "default"
+    productFlavors {
+      stage {
+          applicationIdSuffix ".staging"
+      }
+      dev {
+          
+      }
     }
 
     // applicationVariants are e.g. debug, release
