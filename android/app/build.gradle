@@ -1,13 +1,13 @@
 apply plugin: "com.android.application"
 import com.android.build.OutputFile
 import org.apache.tools.ant.taskdefs.condition.Os
-
 project.ext.envConfigFiles = [
   devdebug: ".env.dev",
   devrelease: ".env.dev",
   stagedebug: ".env.stage",
   stagerelease: ".env.stage",
 ]
+apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.gradle"
 
 project.ext.react = [
     enableHermes: true,  // clean and rebuild if changing
@@ -41,6 +41,7 @@ android {
         versionName "1.0"
         buildConfigField "boolean", "IS_NEW_ARCHITECTURE_ENABLED", isNewArchitectureEnabled().toString()
 
+        resValue 'string', "CODE_PUSH_APK_BUILD_TIME", String.format("\"%d\"", System.currentTimeMillis())
         resValue "string", "build_config_package", "com.workassistant"
 
         if (isNewArchitectureEnabled()) {
@@ -129,12 +130,14 @@ android {
             signingConfig signingConfigs.debug
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            
         }
     }
     flavorDimensions "default"
     productFlavors {
       stage {
           applicationIdSuffix ".staging"
+          resValue "string", "CodePushDeploymentKey" , project.env.get('CODEPUSHKEY_AOS')
       }
       dev {
           
@@ -222,4 +225,4 @@ def isNewArchitectureEnabled() {
     return project.hasProperty("newArchEnabled") && project.newArchEnabled == "true"
 }
 
-apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.gradle"
+
