@@ -10,7 +10,7 @@
     "ios": "react-native run-ios",
     "ios:dev": "react-native run-ios --configuration Debug --scheme dev",
     "ios:stage": "react-native run-ios --configuration Debug --scheme stage",
-    "ios:build:stage": "react-native run-ios --configuration Release --scheme stage",
+    "ios:stage:build": "react-native run-ios --configuration Release --scheme stage",
     "start": "react-native start",
     "test": "jest",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
