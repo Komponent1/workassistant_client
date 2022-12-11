@@ -67,3 +67,4 @@ buck-out/
 .env.dev
 .env.prod
 .env.stage
+ios/tmp.xcconfig

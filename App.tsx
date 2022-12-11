@@ -12,6 +12,8 @@ import React from 'react';
 import {Text, View} from 'react-native';
 import Config from 'react-native-config';
 
+console.log(Config);
+
 const App = () => {
   return (
     <View>
